@@ -59,8 +59,7 @@ class Control(JSONObject):#example class
     @position.setter
     def position(self, value):
         self.__position = value
-    def convert(self):
-        return super().__dict__
+    
 
 json = '{"controls":[{"identify":"Test","index":-12,"position":{"positionx":1000,"positiony":789,"index":-1}}],"identify":"Test2","index":891,"position":{"positionx":182,"positiony": 112,"index":-132}}'
 
