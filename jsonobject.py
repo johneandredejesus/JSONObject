@@ -4,12 +4,18 @@ class  JSONObject(object):
         if value is '':
             return
         else:
-            if type(value) is str:
-                value = value.replace("\"","'")
-                _dict = eval(value)
-                self.__dict__ = self.__convertto(_dict)
+            if type(value) is bytes:
+                value = value.decode('utf-8')
+                self.__getdict(value)
+            elif type(value) is str:
+               self.__getdict(value)
             else:
                 self.__dict__ = self.__convertto(value)
+    def __getdict(self,value):
+        value = value.replace("\"","'")
+        _dict = eval(value)
+        self.__dict__ = self.__convertto(_dict)
+
     def __convertto(self,dictvalue):
         _dict = {}
         for key , value in dictvalue.items():
