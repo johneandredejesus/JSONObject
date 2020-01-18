@@ -54,15 +54,6 @@ class JSON(object):
         else:
             self.__exception(obj)
         return self.__tojson(str(_dict))
-    def converttojson(self,obj):
-        """Convert to JSON and return one."""
-        _dict = { }
-        if issubclass(obj.__class__, JSONObject):
-            for key, value in obj.__dict__.items():
-                 self.__setvalue(_dict,key,value)
-        else:
-            self.__exception(obj)
-        return self.__tojson(str(_dict))
     def __getitem_convertfrom(self,obj):
         if type(obj) is dict:
             return obj
