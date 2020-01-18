@@ -3,14 +3,10 @@ class  JSONObject(object):
         """Builds from JSON to object."""
         if value is '':
             return
-        else:
-            if type(value) is bytes:
-                value = value.decode('utf-8')
-                self.__getdict(value)
-            elif type(value) is str:
+        elif type(value) is str:
                self.__getdict(value)
-            else:
-                self.__dict__ = self.__convertto(value)
+        else:
+            self.__dict__ = self.__convertto(value)
     def __getdict(self,value):
         value = value.replace("\"","'")
         _dict = eval(value)
@@ -50,7 +46,7 @@ class JSON(object):
         _dict = { }
         if issubclass(obj.__class__, JSONObject):
             for key, value in obj.__dict__.items():
-                 self.__setvalue(_dict,key,value)
+                self.__setvalue(_dict,key,value)
         else:
             self.__exception(obj)
         return self.__tojson(str(_dict))
@@ -100,6 +96,8 @@ class JSON(object):
             return value[:index+1] + self.__none.capitalize() +  value[index+1+len(self.__none):]
         return value
     def __topython(self, value):
+        if type(value) is bytes:
+            value = value.decode('utf-8')
         value = value.replace(' ','')
         index = 0
         length = len(value)
@@ -113,6 +111,8 @@ class JSON(object):
           index+=1
         return value.replace('\"','\'')
     def __tojson(self, value):
+        if type(value) is bytes:
+            value = value.decode('utf-8')
         value = value.replace(' ','')
         index = 0
         length = len(value)
