@@ -56,11 +56,12 @@ class JSON(object):
             for key, value in obj.__dict__.items():
                 self.__setvalue(_dict,key,value)
             return _dict
-        elif type(obj) is list or type(obj) is tuple:
+        elif (type(obj) is list) or (type(obj) is tuple):
             return [self.__getitem_convertfrom(index) for index in obj]
-        else:
+        elif (type(obj) is str) or (type(obj) is int) or (type(obj) is float) or (type(obj) is bool) or (type(obj) is dict) or (obj is None):
             return obj
-        self.__exception(obj)
+        else:
+            self.__exception(obj)
     def __exception(self,obj):
         error = "Object " + str(obj) +" does not inherit from JSONObject."
         raise Exception(error)
