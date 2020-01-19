@@ -4,7 +4,7 @@ class  JSONObject(object):
         if value is '':
             return
         if type(value) is str:
-               self.__getdict(value)
+            self.__getdict(value)
         else:
             self.__dict__ = self.__convertto(value)
     def __getdict(self,value):
@@ -14,15 +14,15 @@ class  JSONObject(object):
     def __convertto(self,dictvalue):
         _dict = {}
         for key , value in dictvalue.items():
-                _dict[key] = self.__getitem_convertto(value)
+            _dict[key] = self.__getitem_convertto(value)
         return _dict
     def __getitem_convertto(self,value):
         if type(value) is list:
-                return [self.__getitem_convertto(index) for index in value]
+            return [self.__getitem_convertto(index) for index in value]
         elif type(value) is dict:
-                return JSONObject(value)
+            return JSONObject(value)
         else:
-                return value
+            return value
 class JSON(object):
     def __init__(self):
         self.__colon = ':'
@@ -74,7 +74,7 @@ class JSON(object):
             return key[1]
         else:
             return value
-    def __gettopython(self,value,index,length):
+    def __gettopython(self,value,index):
         if value[index+1:index+1+len(self.__true)] == self.__true.lower():
             return value[:index+1] + value[index+1:index+1+len(self.__true)].capitalize() +  value[index+1+len(self.__true):]
         elif value[index+1:index+1+len(self.__false)] == self.__false.lower():
@@ -90,11 +90,11 @@ class JSON(object):
         length = len(value)
         while(index < length):
           if self.__iscolon(value[index]):
-            value = self.__gettopython(value,index,length)
+            value = self.__gettopython(value,index)
           elif self.__isleftbracket(value[index]):
-            value = self.__gettopython(value,index,length)
+            value = self.__gettopython(value,index)
           elif self.__iscomma(value[index]):
-            value = self.__gettopython(value,index,length)
+            value = self.__gettopython(value,index)
           index+=1
         return value.replace('\"','\'')
     def __tojson(self, value):
@@ -105,14 +105,14 @@ class JSON(object):
         length = len(value)
         while(index < length):
             if self.__iscolon(value[index]):
-                value = self.__gettojson(value,index,length)
+                value = self.__gettojson(value,index)
             elif self.__isleftbracket(value[index]):
-                value = self.__gettojson(value,index,length)
+                value = self.__gettojson(value,index)
             elif self.__iscomma(value[index]):
-                value = self.__gettojson(value,index,length)
+                value = self.__gettojson(value,index)
             index+=1
         return value.replace('\'','\"')
-    def __gettojson(self,value,index,length):
+    def __gettojson(self,value,index):
         if value[index+1:index+1+len(self.__true)] == self.__true.capitalize():
             return value[:index+1] + value[index+1:index+1+len(self.__true)].lower() +  value[index+1+len(self.__true):]
         elif value[index+1:index+1+len(self.__false)] == self.__false.capitalize():
