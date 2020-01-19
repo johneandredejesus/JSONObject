@@ -3,7 +3,7 @@ class  JSONObject(object):
         """Builds from JSON to object."""
         if value is '':
             return
-        elif type(value) is str:
+        if type(value) is str:
                self.__getdict(value)
         else:
             self.__dict__ = self.__convertto(value)
@@ -51,29 +51,16 @@ class JSON(object):
             self.__exception(obj)
         return self.__tojson(str(_dict))
     def __getitem_convertfrom(self,obj):
-        if type(obj) is dict:
-            return obj
-        elif  issubclass(obj.__class__, JSONObject):
+        if  issubclass(obj.__class__, JSONObject):
             _dict = {}
             for key, value in obj.__dict__.items():
                 self.__setvalue(_dict,key,value)
             return _dict
-        elif type(obj) is list:
+        elif type(obj) is list or type(obj) is tuple:
             return [self.__getitem_convertfrom(index) for index in obj]
-        elif type(obj) is tuple:
-            return [self.__getitem_convertfrom(index) for index in obj]
-        elif type(obj) is int:
-            return obj
-        elif type(obj) is float:
-            return obj
-        elif type(obj) is str:
-            return obj
-        elif type(obj) is bool:
-            return obj
-        elif obj is None:
-            return None
         else:
-           self.__exception(obj)
+            return obj
+        self.__exception(obj)
     def __exception(self,obj):
         error = "Object " + str(obj) +" does not inherit from JSONObject."
         raise Exception(error)
