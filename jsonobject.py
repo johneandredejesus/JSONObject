@@ -93,9 +93,7 @@ class JSON(object):
         error = "Object " + str(obj) +" does not inherit from JSONObject."
         raise Exception(error)
     def __setvalue(self,_dict ,key, value):
-        result = self.__getitem_convertfrom(value)
-        if result is not None:
-            _dict[self.__remove(key)] = result
+        _dict[self.__remove(key)] =  self.__getitem_convertfrom(value)
     def __remove(self,value):
         if '__' in value:
             key = value.split("__")
@@ -128,7 +126,6 @@ class JSON(object):
     def __tojson(self, value):
         if type(value) is bytes:
             value = value.decode('utf-8')
-        value = self.__toseparate(value)
         index = 0
         length = len(value)
         while(index < length):
@@ -141,10 +138,10 @@ class JSON(object):
             index+=1
         return value.replace('\'','\"')
     def __gettojson(self,value,index):
-        if value[index+1:index+1+len(self.__true)] == self.__true.capitalize():
-            return value[:index+1] + value[index+1:index+1+len(self.__true)].lower() +  value[index+1+len(self.__true):]
-        elif value[index+1:index+1+len(self.__false)] == self.__false.capitalize():
-            return  value[:index+1] + value[index+1:index+1+len(self.__false)].lower() +  value[index+1+len(self.__false):]
-        elif value[index+1:index+1+len(self.__none)] == self.__none.capitalize():
-            return  value[:index+1] + self.__null.lower() +  value[index+1+len(self.__none):]
+        if value[index+2:index+2+len(self.__true)] == self.__true.capitalize():
+            return value[:index+2] + value[index+2:index+2+len(self.__true)].lower() +  value[index+2+len(self.__true):]
+        elif value[index+2:index+2+len(self.__false)] == self.__false.capitalize():
+            return  value[:index+2] + value[index+2:index+2+len(self.__false)].lower() +  value[index+2+len(self.__false):]
+        elif value[index+2:index+2+len(self.__none)] == self.__none.capitalize():
+            return  value[:index+2] + self.__null.lower() +  value[index+2+len(self.__none):]
         return value
